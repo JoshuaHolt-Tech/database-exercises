@@ -6,27 +6,26 @@ USE albums_db;
 DESCRIBE albums;
 
 --  How many rows are in the albums table?
-SELECT COUNT(*)
+SELECT count(*)
 FROM albums;
 
 -- How many unique artist names are in the albums table?
-SELECT DISTINCT artist
+SELECT count(DISTINCT artist) -- count() function is not required.
 FROM albums;
 
 -- What is the primary key for the albums table?
-SELECT id
-FROM albums;
+DESCRIBE albums;
 
 -- What is the oldest release date for any album in the albums table?
-SELECT min(release_date) FROM albums;
+SELECT min(release_date) FROM albums; -- alternative way is order in asc/desc.
 
 -- What is the most recent release date?
-SELECT max(release_date) FROM albums;
+SELECT max(release_date) FROM albums; -- alternative way is order in asc/desc.
 
 -- This is the beginning of the question four answers:
 
 -- The name of all albums by Pink Floyd
-SELECT name
+SELECT name -- It appears name is a reserved word. Use single quotes''.
 FROM albums
 WHERE artist = 'Pink Floyd';
 
@@ -41,12 +40,12 @@ FROM albums
 WHERE name = 'Nevermind';
 
 -- Which albums were released in the 1990s
-SELECT name, release_date
+SELECT `name`, release_date -- Use tick (top left of keyboard) versus single quotes to surround keywords.
 FROM albums
 WHERE release_date BETWEEN 1990 AND 1999;
 
 -- Which albums had less than 20 million certified sales
-SELECT name, sales
+SELECT `name`, sales
 FROM albums
 WHERE sales < 20.0;
 
