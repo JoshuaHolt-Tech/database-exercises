@@ -46,13 +46,15 @@ WHERE to_date > CURDATE());
 # 4. Find all the current department managers that are female. List their names in a comment in your code.
 #	 *** ANSWER ***
 
-SELECT first_name, last_name FROM employees
+SELECT first_name, last_name, gender FROM employees
 WHERE emp_no IN
 # Subquery returns emp_no for current dept managers.
 (SELECT emp_no FROM dept_manager
 WHERE to_date LIKE '9999%')
 # Filters employees based on gender.
 AND gender LIKE 'F';
+
+Isamu Legleitner, Karsten Sigstam, Leon DasSarma, Hilary Kambil
 
 # 5. Find all the employees who currently have a higher salary than the companies overall, historical average salary.
 
@@ -82,16 +84,37 @@ WHERE salary >
 # Subquery subtracts one standard deviation
 - (SELECT ROUND(STD(salary), 2) FROM salaries WHERE to_date > CURDATE())
 # This filters all previous employees.
-AND to_date > CURDATE();
+AND to_date > CURDATE(); #This one works.
 # 83 salaries
 
 #What percentage of all salaries is this?
-
-#	*** ANSWER ***
-
+#	*** Troubleshooting ***
 # I am having trouble getting the syntax for this:
 # My plan is a SELECT (Subquery to find number of salaries in max STD) / (Subquery for total number of current salaries.);
 # So far it has not worked.
+
+#	*** ANSWER ***
+
+SELECT
+
+(SELECT COUNT(emp_no) FROM salaries
+WHERE salary >
+# Subquery finds Max current salary 
+(SELECT MAX(salary) FROM salaries WHERE to_date > CURDATE()) 
+# Subquery subtracts one standard deviation
+- (SELECT ROUND(STD(salary), 2) FROM salaries WHERE to_date > CURDATE())
+# This filters all previous employees.
+AND to_date > CURDATE())
+
+/
+
+(SELECT COUNT(salary) FROM salaries
+WHERE to_date > CURDATE())
+
+* 100; # 0.0346%.
+
+
+
 
 #              ***BONUS***
 
