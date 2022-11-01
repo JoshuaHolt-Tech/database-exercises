@@ -10,7 +10,9 @@ SELECT first_name, last_name, hire_date FROM employees
 JOIN dept_emp USING (emp_no)
 # Used subqurery to return hire_date and use in filter.
 WHERE hire_date LIKE (SELECT hire_date FROM employees
-WHERE employees.emp_no LIKE '101010') AND (dept_emp.to_date LIKE '9999%');
+WHERE employees.emp_no LIKE '101010') 
+AND (dept_emp.to_date LIKE '9999%');
+# 55 employees
 
 # 2. Find all the titles ever held by all current employees with the first name Aamod.
 
@@ -19,9 +21,9 @@ WHERE employees.emp_no LIKE '101010') AND (dept_emp.to_date LIKE '9999%');
 SELECT title FROM titles
 #Uses a subquery to return emp_no from employees named 'Aamod'.
 WHERE emp_no IN(SELECT emp_no FROM employees
-WHERE first_name LIKE 'Aamod') 
+WHERE first_name LIKE 'Aamod' 
 # Filter previous employees.
-AND to_date LIKE '9999%';
+AND to_date LIKE '9999%');
 
 # 3. How many people in the employees table are no longer working for the company? Give the answer in a comment in your code.
 
@@ -54,7 +56,7 @@ WHERE to_date LIKE '9999%')
 # Filters employees based on gender.
 AND gender LIKE 'F';
 
-Isamu Legleitner, Karsten Sigstam, Leon DasSarma, Hilary Kambil
+# Isamu Legleitner, Karsten Sigstam, Leon DasSarma, Hilary Kambil
 
 # 5. Find all the employees who currently have a higher salary than the companies overall, historical average salary.
 
@@ -110,7 +112,7 @@ AND to_date > CURDATE())
 
 (SELECT COUNT(salary) FROM salaries
 WHERE to_date > CURDATE())
-
+# Decimal to percent.
 * 100; # 0.0346%.
 
 
@@ -119,7 +121,22 @@ WHERE to_date > CURDATE())
 #              ***BONUS***
 
 # 1. Find all the department names that currently have female managers.
+SELECT dept_name FROM departments
+WHERE dept_no IN 
+
+(SELECT dept_no FROM dept_manager
+WHERE emp_no IN 
+
+(SELECT emp_no FROM employees
+WHERE gender LIKE 'F') 
+
+AND to_date > CURDATE());
+
+# Develpment, Finance, Human Resources, Research
 
 # 2. Find the first and last name of the employee with the highest salary.
 
+
+
 # 3. Find the department name that the employee with the highest salary works in.
+
